@@ -16,7 +16,6 @@ logger.setLevel(logging.INFO)
 UAP_SNS_TOPIC="arn:aws:sns:ap-southeast-2:416748369696:UAPSNS"
 
 count=os.environ['AWS_BATCH_JOB_ARRAY_INDEX']
-
 BUCKET='aws-batch-parameter'
 
 
@@ -26,11 +25,11 @@ print dir(session)
 
 
 try:
-	s3 = boto3.resource('s3')
-	s3.Bucket(BUCKET).download_file(KEY, '/tmp/%s.txt'%(KEY))
+    s3 = boto3.resource('s3')
+    s3.Bucket(BUCKET).download_file(KEY, '/tmp/%s.txt'%(KEY))
 except Exception as e:
     raise ValueError('Error while downloading temmplate file %s from %s '%(aws-batch-parameter))
-	logger.info(' ERROR while downloading template file')
+    logger.info(' ERROR while downloading template file')
 finally:
     logger.info('Downloading Template Ended')
 
@@ -38,6 +37,7 @@ file=open('/tmp/%s.txt'%(KEY)).read().splitlines()
 print(file[count])
 
 line = file[count].split(' ')
+
 
 source_bucket_key=str(line[0])
 destination_bucket_key=str(line[1])
@@ -82,8 +82,8 @@ def copy_to_vfx_vendor_test(source_bucket_key, destination_bucket_key, source_bu
         raise ValueError('Error while copying S3 objects %s from %s to %s - %s '%(source_bucket_key,source_bucket_name,destination_bucket_name,destination_bucket_key))
     finally:
         logger.info('Copying process ended')
-		
-		
+
+
 def send_message_to_sns(topic_arn, message_body, message_attrs):
     """
     :param topic_arn:
@@ -104,30 +104,29 @@ def main():
     :return:
     """
     copy_to_vfx_vendor_test(source_bucket_key, destination_bucket_key, source_bucket_name, destination_bucket_name)
-	
-	if count == array_size
-		
-		sleep(150);
-		
-		msg_attr={}
-		msg_body = 'Changing Delivery Status to Delivered'
-		msg_attr['Type'] = {"DataType": "String", "StringValue": SHOTGUN_TYPE}
-		msg_attr['entityId'] = {"DataType": "Number", "StringValue": SHOTGUN_ENTITY_ID}
-		msg_attr['entityType'] = {"DataType": "String", "StringValue": SHOTGUN_ENTITY_TYPE}
-		msg_attr['attributeName'] = {"DataType": "String", "StringValue": SHOTGUN_ATTRIBUTE_NAME}
-		msg_attr['attributeValue'] = {"DataType": "String", "StringValue": SHOTGUN_ATTRIBUTE_VALUE}
-	    response = send_message_to_sns(topic_arn=UAP_SNS_TOPIC, message_body=msg_body, message_attrs=msg_attr)
-        print(response)
-		
-	    sleep(150);
-		
-		msg_attr={}
-		msg_body = 'Changing Delivery Status to Delivered'
-		msg_attr['Type'] = {"DataType": "String", "StringValue": PIXIT_PROJECT_TYPE}
-        msg_attr['entityId'] = {"DataType": "Number", "StringValue": PIXIT_TYPE}
-        msg_attr['entityType'] = {"DataType": "String", "StringValue": PIXIT_DELIVERY_ID}
-        msg_attr['attributeName'] = {"DataType": "String", "StringValue": PIXIT_MANIFEST_PATH}
+ if count == array_size:
 
-				
+                sleep(150);
+
+                msg_attr={}
+                msg_body = 'Changing Delivery Status to Delivered'
+                msg_attr['Type'] = {"DataType": "String", "StringValue": SHOTGUN_TYPE}
+                msg_attr['entityId'] = {"DataType": "Number", "StringValue": SHOTGUN_ENTITY_ID}
+                msg_attr['entityType'] = {"DataType": "String", "StringValue": SHOTGUN_ENTITY_TYPE}
+                msg_attr['attributeName'] = {"DataType": "String", "StringValue": SHOTGUN_ATTRIBUTE_NAME}
+                msg_attr['attributeValue'] = {"DataType": "String", "StringValue": SHOTGUN_ATTRIBUTE_VALUE}
+                response = send_message_to_sns(topic_arn=UAP_SNS_TOPIC, message_body=msg_body, message_attrs=msg_attr)
+                print(response)
+
+                sleep(150);
+
+                msg_attr={}
+                msg_body = 'Changing Delivery Status to Delivered'
+                msg_attr['Type'] = {"DataType": "String", "StringValue": PIXIT_PROJECT_TYPE}
+                msg_attr['entityId'] = {"DataType": "Number", "StringValue": PIXIT_TYPE}
+                msg_attr['entityType'] = {"DataType": "String", "StringValue": PIXIT_DELIVERY_ID}
+                msg_attr['attributeName'] = {"DataType": "String", "StringValue": PIXIT_MANIFEST_PATH}
+
+
 if __name__ == '__main__':
     main()
