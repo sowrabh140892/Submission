@@ -104,7 +104,7 @@ def main():
     :return:
     """
     copy_to_vfx_vendor_test(source_bucket_key, destination_bucket_key, source_bucket_name, destination_bucket_name)
- if count == array_size:
+    if count == array_size:
 
                 sleep(150);
 
