@@ -15,7 +15,11 @@ logger.setLevel(logging.INFO)
 
 UAP_SNS_TOPIC="arn:aws:sns:ap-southeast-2:416748369696:UAPSNS"
 
-count=os.environ['AWS_BATCH_JOB_ARRAY_INDEX']
+try:
+    count=os.environ['AWS_BATCH_JOB_ARRAY_INDEX']
+except Exception as e:
+    count=1
+    
 BUCKET='aws-batch-parameter'
 KEY=str(sys.argv[1])
 
