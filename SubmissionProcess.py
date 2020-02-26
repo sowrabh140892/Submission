@@ -17,7 +17,7 @@ UAP_SNS_TOPIC="arn:aws:sns:ap-southeast-2:416748369696:UAPSNS"
 
 count=os.environ['AWS_BATCH_JOB_ARRAY_INDEX']
 BUCKET='aws-batch-parameter'
-
+KEY=str(sys.argv[1])
 
 
 session = boto3.Session(region_name='ap-southeast-2')
@@ -28,7 +28,7 @@ try:
     s3 = boto3.resource('s3')
     s3.Bucket(BUCKET).download_file(KEY, '/tmp/%s.txt'%(KEY))
 except Exception as e:
-    raise ValueError('Error while downloading temmplate file %s from %s '%(aws-batch-parameter))
+    raise ValueError('Error while downloading temmplate file %s from %s '%(BUCKET))
     logger.info(' ERROR while downloading template file')
 finally:
     logger.info('Downloading Template Ended')
