@@ -18,7 +18,7 @@ UAP_SNS_TOPIC="arn:aws:sns:ap-southeast-2:416748369696:UAPSNS"
 
 count=0
 if 'AWS_BATCH_JOB_ARRAY_INDEX' in os.environ:
-    count=os.environ['AWS_BATCH_JOB_ARRAY_INDEX']
+    count=int(os.environ['AWS_BATCH_JOB_ARRAY_INDEX'])
 print(count)
 BUCKET='aws-batch-parameter'
 KEY=str(sys.argv[1])
