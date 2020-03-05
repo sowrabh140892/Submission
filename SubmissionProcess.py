@@ -22,7 +22,7 @@ if 'AWS_BATCH_JOB_ARRAY_INDEX' in os.environ:
 print(count)
 BUCKET='aws-batch-parameter'
 KEY=str(sys.argv[1])
-session = boto3.Session(region_name='ap-southeast-2')
+session = boto3.Session()
 #print dir(session)
 
 
