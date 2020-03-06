@@ -79,7 +79,7 @@ def copy_to_vfx_vendor_test(source_bucket_key, destination_bucket_key, source_bu
         }
         s3.copy(copy_source, destination_bucket_name, destination_bucket_key, SourceClient=source_client)
         print "Copy Completed!"
-	except Exception as e:
+    except Exception as e:
         raise ValueError('Error while copying S3 objects %s from %s to %s - %s '%(source_bucket_key,source_bucket_name,destination_bucket_name,destination_bucket_key))
     finally:
         logger.info('Copying process ended')
