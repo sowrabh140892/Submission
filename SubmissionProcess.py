@@ -39,26 +39,26 @@ file=open('/tmp/%s'%(KEY)).read().splitlines()
 print(file[count])
 
 line = file[count].split(' ')
-
-
 source_bucket_key=str(line[0])
 destination_bucket_key=str(line[1])
 source_bucket_name=str(line[2])
-destination_bucket_name=str(line[3])
+source_region=str(line[3])
+destination_bucket_name=str(line[4])
+destination_region=str(line[5])
 
-array_size=int(line[4])
+array_size=int(line[6])
 
-SHOTGUN_TYPE=str(line[5])
-SHOTGUN_ENTITY_ID=str(line[6])
-SHOTGUN_ENTITY_TYPE=str(line[7])
-SHOTGUN_ATTRIBUTE_NAME=str(line[8])
-SHOTGUN_ATTRIBUTE_VALUE=str(line[9])
+SHOTGUN_TYPE=str(line[7])
+SHOTGUN_ENTITY_ID=str(line[8])
+SHOTGUN_ENTITY_TYPE=str(line[9])
+SHOTGUN_ATTRIBUTE_NAME=str(line[10])
+SHOTGUN_ATTRIBUTE_VALUE=str(line[11])
 SHOTGUN_ATTRIBUTE_VALUE=SHOTGUN_ATTRIBUTE_VALUE.replace("-"," ")
-PIXIT_PROJECT_TYPE=str(line[10])
-PIXIT_TYPE=str(line[11])
-PIXIT_DELIVERY_ID=str(line[12])
+PIXIT_PROJECT_TYPE=str(line[12])
+PIXIT_TYPE=str(line[13])
+PIXIT_DELIVERY_ID=str(line[14])
 print(PIXIT_DELIVERY_ID)
-PIXIT_MANIFEST_PATH=str(line[13])
+PIXIT_MANIFEST_PATH=str(line[15])
 
 print(line)
 
@@ -71,17 +71,15 @@ def copy_to_vfx_vendor_test(source_bucket_key, destination_bucket_key, source_bu
     :return:
     """
     try:
-        s3_resource = session.resource('s3')
+        s3 = boto3.client('s3', destination_region)
+        source_client = boto3.client('s3', source_region)
         copy_source = {
-                'Bucket': source_bucket_name,
-                'Key': source_bucket_key
-            }
-        bucket = s3_resource.Bucket(destination_bucket_name)
-        obj = bucket.Object(destination_bucket_key)
-        print "Copying key %s" % source_bucket_key
-        obj.copy(copy_source)
+            'Bucket': source_bucket_name,
+            'Key': source_bucket_key
+        }
+        s3.copy(copy_source, destination_bucket_name, destination_bucket_key, SourceClient=source_client)
         print "Copy Completed!"
-    except Exception as e:
+	except Exception as e:
         raise ValueError('Error while copying S3 objects %s from %s to %s - %s '%(source_bucket_key,source_bucket_name,destination_bucket_name,destination_bucket_key))
     finally:
         logger.info('Copying process ended')
@@ -132,4 +130,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
